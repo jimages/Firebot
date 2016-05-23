@@ -47,6 +47,17 @@ static int line_table_push(CONFIG *config) {
     return 0;
 }
 
+/* Create an item of a configure pair and return point. */
+static CONFIG* create_config(char *name, char *value) {
+    CONFIG *config;
+
+    config = (CONFIG*) malloc(sizeof(CONFIG));
+    config->name = (char*) malloc(strlen(name) + 1);
+    config->value = (char*) malloc(strlen(value) + 1);
+    strcpy(config->name, name);
+    strcpy(config->value, value);
+    return config;
+}
 
 int ConfigInit() {
     FILE *config_file = NULL;
@@ -94,12 +105,7 @@ int ConfigInit() {
            exit(-1);
        }
        
-       /* Create an item of a configure pair. */
-       config = (CONFIG*) malloc(sizeof(CONFIG));
-       config->name = (char*) malloc(strlen(name) + 1);
-       config->value = (char*) malloc(strlen(value) + 1);
-       strcpy(config->name, name);
-       strcpy(config->value, value);
+       config = create_config(name, value);
 
        /* Push it into line table */
        line_table_push(config);
