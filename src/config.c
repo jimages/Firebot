@@ -110,5 +110,6 @@ int ConfigInit() {
        /* Push it into line table */
        line_table_push(config);
     }
+    fclose(config_file);
     return 0;
 }
