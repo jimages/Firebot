@@ -14,4 +14,5 @@
     #include<string.h>
 
     #include"config.h"
+    #include"log.h"
 #endif
