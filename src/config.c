@@ -65,6 +65,8 @@ int ConfigInit() {
     CONFIG *config;
     
     config_file = fopen(CONFIG_FILE_PATH, "r");
+    if (config_file == NULL)
+        error(-1, errno, CONFIG_FILE_PATH);
     /* Now we read the configure file and make a line table. */
     while ((c = next_char(config_file)) != EOF) {
         short n = 0;

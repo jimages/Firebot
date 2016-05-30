@@ -12,6 +12,8 @@
     #include<stdlib.h>
     #include<mysql.h>
     #include<string.h>
+    #include<errno.h>
+    #include<error.h>
 
     #include"config.h"
     #include"log.h"
