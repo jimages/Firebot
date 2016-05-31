@@ -15,13 +15,13 @@
 
 static LINE_TABLE_ITEM *root = NULL;
 
-static void next_line(FILE *f) {
+static void next_line(FILE * const f) {
     /* Because open file in r mode, there is no need to convert windows-style newlinw to unix-style newline. */
     while (getc(f) != '\n')
         continue;
 } 
 
-static char next_char(FILE *f) {
+static char next_char(FILE * const f) {
     char c;
     
     do {
@@ -30,7 +30,7 @@ static char next_char(FILE *f) {
     return c;
 }
 
-static int line_table_push(CONFIG *config) {
+static int line_table_push(CONFIG * const config) {
     extern LINE_TABLE_ITEM *root;
     LINE_TABLE_ITEM *current = root, *new;
 
@@ -48,7 +48,7 @@ static int line_table_push(CONFIG *config) {
 }
 
 /* Create an item of a configure pair and return point. */
-static CONFIG* create_config(char *name, char *value) {
+static CONFIG* create_config(const char *name, const char *value) {
     CONFIG *config;
 
     config = (CONFIG*) malloc(sizeof(CONFIG));
