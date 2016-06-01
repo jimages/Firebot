@@ -23,4 +23,5 @@
     } LINE_TABLE_ITEM;
 
     int ConfigInit(void);
+    const char *GetConfig(const char * const name);
 #endif

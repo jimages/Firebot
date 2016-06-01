@@ -115,3 +115,19 @@ int ConfigInit() {
     fclose(config_file);
     return 0;
 }
+
+/* Get a certain confiure and return the string of value */
+const char * GetConfig(const char * const name) {
+    extern LINE_TABLE_ITEM * root;
+    CONFIG * current_config;
+    LINE_TABLE_ITEM * now = root;
+
+    while (now != NULL) {
+        current_config = now->value;
+        if (strcasecmp(current_config->name, name) == 0)
+            return current_config->value;
+        now = now->next;
+    }
+    /* If there is no specific configure, return NULL. */
+    return NULL;
+}

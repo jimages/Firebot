@@ -14,6 +14,7 @@
     #include<string.h>
     #include<errno.h>
     #include<error.h>
+    #include<strings.h>
 
     #include"config.h"
     #include"log.h"
