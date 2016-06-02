@@ -6,16 +6,18 @@
  */
 
 #ifndef _FIREBOT_H_
-    #define _FIREBOT_H_ 
-    
-    #include<stdio.h>
-    #include<stdlib.h>
-    #include<mysql.h>
-    #include<string.h>
-    #include<errno.h>
-    #include<error.h>
-    #include<strings.h>
 
-    #include"config.h"
-    #include"log.h"
+#define _FIREBOT_H_ 
+    
+#include<stdio.h>
+#include<stdlib.h>
+#include<mysql.h>
+#include<string.h>
+#include<errno.h>
+#include<error.h>
+#include<strings.h>
+
+#include"config.h"
+#include"log.h"
+
 #endif

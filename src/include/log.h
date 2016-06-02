@@ -6,8 +6,10 @@
  */
 
 #ifndef _FIREBOT_LOG_H_
-    #define _FIREBOT_LOG_H_
 
-    #define LOG_FILE_PATH "/var/log/firebot.log"
-    int LogInit(void);
+#define _FIREBOT_LOG_H_
+
+#define LOG_FILE_PATH "/var/log/firebot.log"
+int LogInit(void);
+
 #endif
