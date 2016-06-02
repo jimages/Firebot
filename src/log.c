@@ -10,10 +10,8 @@
  */
 #include"include/firebot.h"
 
-static FILE *log_file;
-
 int LogInit(void) {
-    extern FILE *log_file;
+    FILE *log_file;
     const char * config_value;
 
     /* If run in root, save messages in log directory. Otherwise to a file specficed by configure or directly print to console. */
