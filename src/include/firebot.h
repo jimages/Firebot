@@ -8,6 +8,7 @@
 #ifndef _FIREBOT_H_
 
 #define _FIREBOT_H_ 
+#define _POSIX_SOURCE
     
 #include<stdio.h>
 #include<stdlib.h>
@@ -16,6 +17,7 @@
 #include<errno.h>
 #include<error.h>
 #include<strings.h>
+#include<time.h>
 
 #include"config.h"
 #include"log.h"

@@ -8,9 +8,29 @@
 /*
  * log imformation and errors
  */
+#define TIME_STRING_MAX_LENGTH 20 
 #include"include/firebot.h"
 
 static FILE *log_file;
+
+/* Add a timestamp at the beginning of log. */
+static char * add_timestamp(const char * log) {
+    struct tm now_time_tm;
+    time_t now_time_time_t = time(NULL);
+    char time_string[TIME_STRING_MAX_LENGTH+1];
+    char * log_message;
+
+    gmtime_r(& now_time_time_t, & now_time_tm);
+    /* At least 20 bytes for the string of date. */
+    strftime(time_string, (size_t)(TIME_STRING_MAX_LENGTH+1), "%F %H:%M:%S ", &now_time_tm);
+    log_message = malloc((size_t)(strlen(log) + strlen(time_string) + 1));
+    if (log_message == NULL)
+        error(-1, errno, "Can't genreate log message. May be out of memory.");
+    strcpy(log_message, time_string);
+    strcat(log_message, log); 
+
+    return log_message;
+}
 
 int LogInit(void) {
     extern FILE *log_file;
