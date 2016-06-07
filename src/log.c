@@ -42,3 +42,30 @@ int LogInit(void) {
     /* there is no need to check error, because log will be sent to consule.*/
     return 0;
 }
+
+/* Write log message into log file if exists. exit with status code if LOG_LEVEL if log_error, otherwise it don`t take effect. */ 
+/* There are three log level: log_error, log_warning and log_info */
+int Log(int status, LOG_LEVEL level, const char * str) {
+   const char * level_string;
+   char * timestamp_string;
+   
+   switch (level) {
+       case log_error:
+           level_string = "error";
+           break;
+
+       case log_warning:
+           level_string = "warning";
+           break;
+
+       case log_info:
+           level_string = "info";
+           break;
+   }
+   timestamp_string = timestamp();
+   printf("%s : %s : %s", timestamp_string, level_string, str);
+   free(timestamp_string);
+   if (level == log_error)
+       exit(status);
+   return 0;
+}

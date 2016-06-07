@@ -12,4 +12,8 @@
 #define LOG_FILE_PATH "/var/log/firebot.log"
 int LogInit(void);
 
+enum log_level_t {log_error, log_warning, log_info};
+
+typedef enum log_level_t LOG_LEVEL;
+
 #endif
