@@ -16,5 +16,7 @@ int main(int argc, const char ** argv) {
     // Init log module.
     LogInit();
 
+    Log(0, log_info, "firebot started.");
+
     return 0;
 }
