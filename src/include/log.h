@@ -16,4 +16,6 @@ enum log_level_t {log_error, log_warning, log_info};
 
 typedef enum log_level_t LOG_LEVEL;
 
+int Log(int status, LOG_LEVEL level, const char * str);
+
 #endif

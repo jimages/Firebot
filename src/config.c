@@ -89,7 +89,7 @@ int ConfigInit() {
        }
        name[n++] = '\0'; 
        if ( n > CONFIG_BUFF - 1)
-           error(-1, 0, "Fatal error: the length of configure name is out of limit. Please check your configure file.");
+           Log(-1, log_error, "the length of configure name is out of limit. Please check your configure file.");
 
        n = 0;
        /* leap the '=' */
@@ -102,7 +102,7 @@ int ConfigInit() {
        }
        value[n++] = '\0';
        if (n > CONFIG_BUFF - 1) 
-           error(-1, 0, "Fatal error: the length of configure name is out of limit. Please check your configure file.");
+           Log(-1, log_error, "the length of configure name is out of limit. Please check your configure file.");
 
        config = create_config(name, value);
 
