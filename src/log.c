@@ -22,7 +22,7 @@ static char * timestamp() {
     time_string = malloc((size_t)(TIME_STRING_MAX_LENGTH + 1));
 
     gmtime_r(& now_time_time_t, & now_time_tm);
-    /* At least 20 bytes for the string of date. */
+    /* At least 21 bytes for the string of date. */
     strftime(time_string, (size_t)(TIME_STRING_MAX_LENGTH+1), "%F %H:%M:%S", &now_time_tm);
 
     return time_string;
@@ -63,7 +63,7 @@ int Log(int status, LOG_LEVEL level, const char * str) {
            break;
    }
    timestamp_string = timestamp();
-   printf("%s : %s : %s", timestamp_string, level_string, str);
+   printf("%s : %s : %s\n", timestamp_string, level_string, str);
    free(timestamp_string);
    if (level == log_error)
        exit(status);
