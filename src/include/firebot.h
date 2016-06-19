@@ -9,6 +9,7 @@
 
 #define _FIREBOT_H_ 
 #define _POSIX_SOURCE
+#define MAX_BUF 256
     
 #include<stdio.h>
 #include<stdlib.h>
