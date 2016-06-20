@@ -18,5 +18,7 @@ int main(int argc, const char ** argv) {
 
     Log(0, log_info, "firebot started.");
 
+    LoadNetworkConfig();
+
     return 0;
 }

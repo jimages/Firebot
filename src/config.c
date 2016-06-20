@@ -119,3 +119,71 @@ int AddConfig(const char * const name, const char * value) {
     }
     return 0;
 }
+
+int UpdateConfig(const char * const name, const char * value) {
+    extern LINE_TABLE_ITEM *root;
+    LINE_TABLE_ITEM *current = root;
+    char * new_value;
+
+    // If name or value is NULL.
+    if (!name || !value)
+        return -1;
+
+    while (strcasecmp(((CONFIG *)current->value)->name, name) != 0) {
+        if (current == NULL)
+           return -1;
+        current = current->next;
+    }
+    new_value = malloc((size_t)strlen(value));
+    strcpy(new_value, value);
+    free(current->value);
+    ((CONFIG *)current->value)->value = new_value;
+    return 0;
+}
+
+int LoadNetworkConfig(void) {
+    MYSQL * connector;
+    const char * host, * user, * passwd, *db;
+    unsigned int port;
+    char buf[MAX_BUF];
+    MYSQL_RES * res;
+    MYSQL_ROW row;
+
+    Log(0, log_info, "Load configures from database.");
+    host = GetConfig("MYSQL_ADDR");
+    user = GetConfig("MYSQL_USER");
+    passwd = GetConfig("MYSQL_USER");
+    db = GetConfig("MYSQL_DATABASE");
+    if ( !(host && user && passwd && db))
+        Log(-1, log_error, "Can't load configure of Mysql. Maybe you should check you config file.");
+    if (!sscanf(GetConfig("MYSQL_PORT"), "%u", &port))
+        Log(-1, log_error, strerror(errno));
+
+    connector = mysql_init(NULL);
+    Log(0, log_info, "Start to connect database.");
+    if(!mysql_real_connect(connector, host, user, passwd, db, port, NULL, 0)) {
+        snprintf(buf, MAX_BUF, "Failed to connect to database: %s", mysql_error(connector)); 
+        Log(-1, log_error, buf);
+    }
+
+    //Load the configures from database.
+    if( 0 != mysql_query(connector, "SELECT * FROM firebot_config"))
+        Log(-1, log_error, mysql_error(connector));
+
+    res = mysql_store_result(connector);
+    if (!res)
+        Log(-1, log_error, mysql_error(connector));
+    
+    while ((row = mysql_fetch_row(res)) != NULL) {
+        /* row[0] stands for id
+         * row[1] stands for name
+         * row[3] stands for value
+         */
+        if (GetConfig(row[1]) == NULL) {
+            AddConfig(row[1], row[2]);
+        } else {
+            UpdateConfig(row[1], row[2]);
+        }
+    }
+    return 0;
+}
