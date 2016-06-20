@@ -25,5 +25,6 @@ typedef struct line_table_item {
 
 int ConfigInit(void);
 const char *GetConfig(const char * const name);
+int AddConfig(const char * const name, const char * const value);
 
 #endif

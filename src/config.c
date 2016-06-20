@@ -30,23 +30,6 @@ static char next_char(FILE * const f) {
     return c;
 }
 
-static int line_table_push(CONFIG * const config) {
-    extern LINE_TABLE_ITEM *root;
-    LINE_TABLE_ITEM *current = root, *new;
-
-    new = (LINE_TABLE_ITEM*) malloc(sizeof(LINE_TABLE_ITEM));
-    new->value = config;
-    new->next = NULL;
-    if (root == NULL) {
-        root = new;
-    } else {
-        while (current->next != NULL) 
-            current = current->next;
-        current->next = new;
-    }
-    return 0;
-}
-
 /* Create an item of a configure pair and return point. */
 static CONFIG* create_config(const char *name, const char *value) {
     CONFIG *config;
@@ -62,7 +45,6 @@ static CONFIG* create_config(const char *name, const char *value) {
 int ConfigInit() {
     FILE *config_file = NULL;
     char name[CONFIG_BUFF], value[CONFIG_BUFF], c;
-    CONFIG *config;
     
     config_file = fopen(CONFIG_FILE_PATH, "r");
     if (config_file == NULL)
@@ -103,11 +85,7 @@ int ConfigInit() {
        value[n++] = '\0';
        if (n > CONFIG_BUFF - 1) 
            Log(-1, log_error, "the length of configure name is out of limit. Please check your configure file.");
-
-       config = create_config(name, value);
-
-       /* Push it into line table */
-       line_table_push(config);
+       AddConfig(name,value);
     }
     fclose(config_file);
     return 0;
@@ -127,4 +105,24 @@ const char * GetConfig(const char * const name) {
     }
     /* If there is no specific configure, return NULL. */
     return NULL;
+}
+
+/* Add a new item of configure. return 0 if success, otherwise if fail.*/
+int AddConfig(const char * const name, const char * value) {
+    CONFIG *config;
+    extern LINE_TABLE_ITEM *root;
+    LINE_TABLE_ITEM *current = root, *new;
+    
+    config = create_config(name, value);
+    new = (LINE_TABLE_ITEM*) malloc(sizeof(LINE_TABLE_ITEM));
+    new->value = config;
+    new->next = NULL;
+    if (root == NULL) {
+        root = new;
+    } else {
+        while (current->next != NULL) 
+            current = current->next;
+        current->next = new;
+    }
+    return 0;
 }
