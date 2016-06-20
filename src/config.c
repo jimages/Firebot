@@ -30,18 +30,6 @@ static char next_char(FILE * const f) {
     return c;
 }
 
-/* Create an item of a configure pair and return point. */
-static CONFIG* create_config(const char *name, const char *value) {
-    CONFIG *config;
-
-    config = (CONFIG*) malloc(sizeof(CONFIG));
-    config->name = (char*) malloc(strlen(name) + 1);
-    config->value = (char*) malloc(strlen(value) + 1);
-    strcpy(config->name, name);
-    strcpy(config->value, value);
-    return config;
-}
-
 int ConfigInit() {
     FILE *config_file = NULL;
     char name[CONFIG_BUFF], value[CONFIG_BUFF], c;
@@ -113,7 +101,12 @@ int AddConfig(const char * const name, const char * value) {
     extern LINE_TABLE_ITEM *root;
     LINE_TABLE_ITEM *current = root, *new;
     
-    config = create_config(name, value);
+    config = malloc(sizeof(CONFIG));
+    config->name = malloc((size_t)strlen(name));
+    config->value = malloc((size_t)strlen(value));
+    strcpy(config->name, name);
+    strcpy(config->value, value);
+
     new = (LINE_TABLE_ITEM*) malloc(sizeof(LINE_TABLE_ITEM));
     new->value = config;
     new->next = NULL;
