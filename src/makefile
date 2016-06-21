@@ -5,9 +5,9 @@ CFLAG = -std=c99 -ggdb -Wall
 MYSQL_LINK = `mysql_config --libs`
 MYSQL_COMP = `mysql_config --cflags`
 
-all: test
+all: firebot 
 
-test: config.o firebot.o log.o
+firebot: config.o firebot.o log.o
 	$(CC) $(CFLAG) -o firebot config.o firebot.o log.o $(MYSQL_LINK)
 
 config.o: config.c include/firebot.h include/config.h
