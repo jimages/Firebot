@@ -1,3 +1,3 @@
 # Firebot
 - - -
-Firebot is a discribed spider(bot) program which help you index/fetch the whole Internet.
+Firebot is a discrete spider(bot) program which help you index/fetch the whole Internet.
