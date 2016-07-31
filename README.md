@@ -4,3 +4,4 @@ Firebot is a discrete spider(bot) program which help you index/fetch the whole I
 ## Requirement
 - - -
 * libmysqlclient
+* libcurl
