@@ -20,5 +20,7 @@ int main(int argc, const char ** argv) {
 
     LoadNetworkConfig();
 
+    curl_global_init(CURL_GLOBAL_SSL);
+
     return 0;
 }

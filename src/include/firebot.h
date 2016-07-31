@@ -19,6 +19,7 @@
 #include<error.h>
 #include<strings.h>
 #include<time.h>
+#include<curl/curl.h>
 #include<unistd.h>
 
 #include"config.h"
