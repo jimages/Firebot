@@ -19,6 +19,7 @@
 #include<error.h>
 #include<strings.h>
 #include<time.h>
+#include<unistd.h>
 
 #include"config.h"
 #include"log.h"
