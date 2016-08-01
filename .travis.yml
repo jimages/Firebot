@@ -15,7 +15,7 @@ install:
           
 before_script:
   - mysql -e "CREATE DATABASE IF NOT EXISTS firebot;"
-  - mysql -e "USE firebot; SOURCE ./extras/firebot.sql" -uroot
+  - mysql -uroot firebot < extras/firebot.sql
 
 script:
   - ./build/firebot
