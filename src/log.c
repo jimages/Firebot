@@ -36,9 +36,12 @@ int LogInit(void) {
 	&& !access(file_path_in_config, W_OK)) {
 		log_file = freopen(file_path_in_config, "a", stderr);
 		log_file = freopen(file_path_in_config, "a", stdout);
-		} else if (!access(LOG_FILE_PATH, W_OK)) {
+	} else if (!access(LOG_FILE_PATH, W_OK)) {
+		Log(0, log_info, "Log to default log file path.");
 		log_file = freopen(LOG_FILE_PATH, "a", stdout);
 		log_file = freopen(LOG_FILE_PATH, "a", stderr);
+	} else {
+		Log(0, log_warning, "Only can log to console.");
 	}
 	return 0;
 }
