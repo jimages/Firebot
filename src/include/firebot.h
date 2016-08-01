@@ -25,4 +25,4 @@
 #include"config.h"
 #include"log.h"
 
-#endif
+#endif //_FIREBOT_H_

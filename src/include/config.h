@@ -24,8 +24,8 @@ typedef struct line_table_item {
 } LINE_TABLE_ITEM;
 
 int ConfigInit(void);
-const char *GetConfig(const char * const name);
-int AddConfig(const char * const name, const char * const value);
+const char *GetConfig(const char *const name);
+int AddConfig(const char *const name, const char *const value);
 int LoadNetworkConfig(void);
 
-#endif
+#endif //_FIREBOT_CONFIG_H

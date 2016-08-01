@@ -18,4 +18,4 @@ typedef enum log_level_t LOG_LEVEL;
 
 int Log(int status, LOG_LEVEL level, const char * str);
 
-#endif
+#endif //_FIREBOT_LOG_H_
