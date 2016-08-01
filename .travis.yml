@@ -1,0 +1,21 @@
+# Runing test.
+language: c
+
+services: 
+  - mysql
+
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y libmysqlclient-dev
+  - sudo apt-get install -y libcurl-dev
+  - sudo apt-get install -y libssl-dev
+
+install:
+  - sudo make
+          
+before_script:
+  - mysql -e "CREATE DATEABASE IF NOT EXISTS firebot;"
+  - mysql -e "USE firebot; SOURCE ./extras/firebot.sql" -uroot
+
+script:
+  - ./build/firebot
