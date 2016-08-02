@@ -21,9 +21,11 @@
 #include<time.h>
 #include<curl/curl.h>
 #include<unistd.h>
+#include<stdbool.h>
 #include<libgen.h>
 
 #include"config.h"
 #include"log.h"
+#include"daemon.h"
 
 #endif //_FIREBOT_H_
