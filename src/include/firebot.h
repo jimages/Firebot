@@ -21,6 +21,7 @@
 #include<time.h>
 #include<curl/curl.h>
 #include<unistd.h>
+#include<libgen.h>
 
 #include"config.h"
 #include"log.h"

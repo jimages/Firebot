@@ -29,20 +29,28 @@ static char *timestamp() {
 
 int LogInit(void) {
 	extern FILE *log_file;
-	const char *file_path_in_config;
+	const char *path;
 
-	// First we check whether we can write to user-specfic log file.
-	if ((file_path_in_config = GetConfig("LOG_FILE_PATH")) 
-	&& !access(file_path_in_config, W_OK)) {
-		log_file = freopen(file_path_in_config, "a", stderr);
-		log_file = freopen(file_path_in_config, "a", stdout);
-	} else if (!access(LOG_FILE_PATH, W_OK)) {
-		Log(0, log_info, "Log to default log file path.");
-		log_file = freopen(LOG_FILE_PATH, "a", stdout);
-		log_file = freopen(LOG_FILE_PATH, "a", stderr);
-	} else {
-		Log(0, log_warning, "Only can log to console.");
+	path = GetConfig("LOG_FILE_PATH");
+	if (!path) {
+		Log(-1, log_warning, "Can't find the path to log. Use default log path instead.");
+		path = LOG_FILE_PATH;
 	}
+	if(access(path, F_OK) == -1) {
+		char * dir;
+		char * copy;
+
+		copy = malloc(strlen(path));
+		strcpy(copy,path);
+		dir = dirname(copy);
+		if (access(dir, W_OK) == -1) {
+			Log(0, log_warning, "Can't log to file, so log to console.");
+			log_file = stderr;
+			return 0;
+		}
+	}
+	log_file = freopen(path, "a",stderr);
+	if (!log_file) Log(-1, log_error, strerror(errno));
 	return 0;
 }
 
@@ -57,6 +65,7 @@ int Log(int status, LOG_LEVEL level, const char * str)
 {
 	const char *level_string;
 	char *timestamp_string;
+	extern FILE *log_file;
 
 	switch (level) {
 	case log_error:
@@ -70,7 +79,7 @@ int Log(int status, LOG_LEVEL level, const char * str)
 		break;
 	}
 	timestamp_string = timestamp();
-	printf("%s : %s : %s\n", timestamp_string, level_string, str);
+	fprintf(stderr, "%s : %s : %s\n", timestamp_string, level_string, str);
 	free(timestamp_string);
 	if (level == log_error) exit(status);
 	return 0;
