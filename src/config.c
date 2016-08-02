@@ -161,7 +161,7 @@ int LoadNetworkConfig(void)
 	Log(0, log_info, "Load configures from database.");
 	host = GetConfig("MYSQL_ADDR");
 	user = GetConfig("MYSQL_USER");
-	passwd = GetConfig("MYSQL_USER");
+	passwd = GetConfig("MYSQL_PASSWORD");
 	db = GetConfig("MYSQL_DATABASE");
 	if ( !(host && user && passwd && db))
 		Log(-1, log_error, "Can't load configure of Mysql. Maybe you should check you config file.");
