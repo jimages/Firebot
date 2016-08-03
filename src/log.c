@@ -48,6 +48,7 @@ int LogInit(void) {
 			log_file = stderr;
 			return 0;
 		}
+		free(copy);
 	}
 	log_file = freopen(path, "a",stderr);
 	if (!log_file) Log(-1, log_error, strerror(errno));
