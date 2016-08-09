@@ -9,8 +9,10 @@
 
 #define _FIREBOT_H_ 
 #define _POSIX_SOURCE
+#define _POSIX_C_SOURCE 2
 #define MAX_BUF 256
-    
+#define FIREBOT_VERSION "1.0.0dev CAUTION:This is DEVELOPMENT version."
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<mysql.h>
@@ -27,5 +29,6 @@
 #include"config.h"
 #include"log.h"
 #include"daemon.h"
+#include"shell.h"
 
 #endif //_FIREBOT_H_

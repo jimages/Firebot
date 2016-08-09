@@ -9,9 +9,10 @@ CURL_COMP = `curl-config --cflags`
 
 all: build/firebot
 
-build/firebot: build/config.o build/firebot.o build/log.o build/daemon.o
-	$(CC) $(CFLAG) -o build/firebot build/config.o build/firebot.o build/log.o \
-		build/daemon.o \
+build/firebot: build/config.o build/firebot.o build/log.o build/daemon.o \
+	       build/shell.o
+	$(CC) $(CFLAG) -o build/firebot build/config.o build/firebot.o \
+			  build/shell.o build/log.o build/daemon.o \
 		$(MYSQL_LINK) $(CURL_LINK)
 
 build/config.o: src/config.c src/include/firebot.h src/include/config.h
@@ -28,6 +29,9 @@ build/log.o: src/log.c src/include/firebot.h src/include/log.h
 
 build/daemon.o: src/daemon.c src/include/firebot.h src/include/daemon.h
 	$(CC) $(CFLAG) -c $(MYSQL_COMP) $(CURL_COMP) -o build/daemon.o src/daemon.c
+
+build/shell.o: src/shell.c src/include/firebot.h src/include/shell.h
+	$(CC) $(CFLAG) -c $(MYSQL_COMP) $(CURL_COMP) -o build/shell.o src/shell.c
 
 clean:
 	$(RM) build/firebot build/*.o

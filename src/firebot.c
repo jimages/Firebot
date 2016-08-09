@@ -6,12 +6,15 @@
  */
 #include "include/firebot.h"
 
-int main(int argc, const char ** argv) {
+int main(int argc, char *argv[])
+{
 	// Intialize mysql library.
 	mysql_library_init(0, NULL, NULL);
 
 	// Initialize configure module.
 	ConfigInit();
+
+	shell_init(argc, argv);
 
 	// Init log module.
 	LogInit();
