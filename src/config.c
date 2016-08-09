@@ -94,12 +94,12 @@ const char * GetConfig(const char * const name)
 
 	while (now != NULL) {
 		current_config = now->value;
-	if (strcasecmp(current_config->name, name) == 0)
-		return current_config->value;
-	now = now->next;
+		if (strcasecmp(current_config->name, name) == 0)
+			return current_config->value;
+		now = now->next;
 	}
-// If there is no specific configure, return NULL.
-return NULL;
+	// If there is no specific configure, return NULL.
+	return NULL;
 }
 
 /* Add a new item of configure. return 0 if success, otherwise if fail.*/
