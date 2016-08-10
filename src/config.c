@@ -80,6 +80,21 @@ int ConfigInit()
 		if (n > CONFIG_BUFF - 1) 
 			fb_err(EXIT_FAILURE, "the length of configure name is out of limit. Please check your configure file.");
 		AddConfig(name,value);
+
+		/*
+		 * Cause we may define a config before in shell.c
+		 * We first check whether the configure is defined.
+		 * if exists, we ignore the configure and log a warning.
+		 */
+
+		if (GetConfig(name) == NULL) {
+			AddConfig(name,value);
+		} else {
+			char s[MAX_BUF];
+			snprintf(s, sizeof(s),
+				 "The configure %s is defined before, so ignore the configure in configure file", name);
+			fb_warning(s);
+		}
 	}
 	fclose(config_file);
 	return 0;
