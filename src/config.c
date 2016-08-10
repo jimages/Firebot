@@ -65,7 +65,7 @@ int ConfigInit()
 		}
 		name[n++] = '\0'; 
 		if ( n > CONFIG_BUFF - 1)
-			Log(-1, log_error, "the length of configure name is out of limit. Please check your configure file.");
+			fb_err(EXIT_FAILURE, "the length of configure name is out of limit. Please check your configure file.");
 
 		n = 0;
 		// leap the '='
@@ -78,7 +78,7 @@ int ConfigInit()
 		}
 		value[n++] = '\0';
 		if (n > CONFIG_BUFF - 1) 
-			Log(-1, log_error, "the length of configure name is out of limit. Please check your configure file.");
+			fb_err(EXIT_FAILURE, "the length of configure name is out of limit. Please check your configure file.");
 		AddConfig(name,value);
 	}
 	fclose(config_file);
@@ -158,33 +158,33 @@ int LoadNetworkConfig(void)
 	MYSQL_RES * res;
 	MYSQL_ROW row;
 
-	Log(0, log_info, "Load configures from database.");
+	fb_info("Load configures from database.");
 	host = GetConfig("MYSQL_ADDR");
 	user = GetConfig("MYSQL_USER");
 	passwd = GetConfig("MYSQL_PASSWORD");
 	db = GetConfig("MYSQL_DATABASE");
 	if ( !(host && user && passwd && db))
-		Log(-1, log_error, "Can't load configure of Mysql. Maybe you should check you config file.");
+		fb_err(EXIT_FAILURE, "Can't load configure of Mysql. Maybe you should check you config file.");
 	if (!sscanf(GetConfig("MYSQL_PORT"), "%u", &port))
-		Log(-1, log_error, strerror(errno));
+		fb_err(EXIT_FAILURE, strerror(errno));
 
 	connector = mysql_init(NULL);
-	Log(0, log_info, "Start to connect database.");
+	fb_info("Start to connect database.");
 	if(!mysql_real_connect(connector, host,
 			       user, passwd, db, port, NULL, 0)) {
 		snprintf(buf, MAX_BUF, 
 			"Failed to connect to database: %s",
 			mysql_error(connector)); 
-		Log(-1, log_error, buf);
+		fb_err(EXIT_FAILURE, buf);
 	}
 
 	//Load the configures from database.
 	if( 0 != mysql_query(connector, "SELECT * FROM firebot_config"))
-	Log(-1, log_error, mysql_error(connector));
+	fb_err(EXIT_FAILURE, mysql_error(connector));
 
 	    res = mysql_store_result(connector);
 	    if (!res)
-		Log(-1, log_error, mysql_error(connector));
+		fb_err(EXIT_FAILURE, mysql_error(connector));
     
 	while ((row = mysql_fetch_row(res)) != NULL) {
 		/* row[0] stands for id

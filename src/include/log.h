@@ -12,10 +12,9 @@
 #define LOG_FILE_PATH "/var/log/firebot.log"
 int LogInit(void);
 
-enum log_level_t {log_error, log_warning, log_info};
+extern int fb_err(int code, const char *str, ...);
+extern int fb_info(const char *str, ...);
+extern int fb_warning(const char *str, ...);
 
-typedef enum log_level_t LOG_LEVEL;
-
-int Log(int status, LOG_LEVEL level, const char * str);
 
 #endif //_FIREBOT_LOG_H_
