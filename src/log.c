@@ -110,6 +110,12 @@ extern int fb_err(int code, const char *str, ...)
 	fb_log(log_error, str, ap);
 	va_end(ap);
 
+	/*
+	 * If we had error in a thread, We do not use exit,
+	 * which is not MT-safe. so we exit the thread but not process.
+	 * Otherwise we exit the process.
+	 */
+	// TODO: smoothly exit in mulit-threads environment.
 	exit(code);
 	return 0;
 }
