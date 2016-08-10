@@ -39,10 +39,17 @@ int ConfigInit()
 {
 	FILE *config_file = NULL;
 	char name[CONFIG_BUFF], value[CONFIG_BUFF], c;
+	const char *path;
 
-	config_file = fopen(CONFIG_FILE_PATH, "r");
-	if (config_file == NULL)
-		error(-1, errno, CONFIG_FILE_PATH);
+	if ((path = GetConfig("CONFIG_FILE_PATH")) == NULL)
+			path = CONFIG_FILE_PATH;
+	config_file = fopen(path, "r");
+
+	if (config_file == NULL) {
+		char s[MAX_BUF];
+		snprintf(s, sizeof(s), "%s : %s", path, strerror(errno));
+		Log(EXIT_FAILURE, log_error, s);
+	}
 	// Now we read the configure file and make a line table.
 	while ((c = next_char(config_file)) != EOF) {
 		short n = 0;

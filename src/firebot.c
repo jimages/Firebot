@@ -11,10 +11,10 @@ int main(int argc, char *argv[])
 	// Intialize mysql library.
 	mysql_library_init(0, NULL, NULL);
 
+	shell_init(argc, argv);
+
 	// Initialize configure module.
 	ConfigInit();
-
-	shell_init(argc, argv);
 
 	// Init log module.
 	LogInit();
