@@ -135,23 +135,21 @@ bool shell_init(int argc, char *argv[])
 			if (optarg == 0)
 				optarg = "start";
 			else if (valid_daemon_command(optarg) != 0)
-				Log(EXIT_FAILURE, log_error,
-				    "Invalid daemon command.");
+				fb_err(EXIT_FAILURE,
+				       "Invalid daemon command.");
 			AddConfig(conf, optarg);
 			break;
 		case ':':
-			Log(0, log_warning, "Missing option argument.\n");
+			fb_warning("Missing option argument.\n");
 			out_help();
 			exit(EXIT_FAILURE);
 			break;
 		default: // for '?'
 			if (errno != 0)
-				Log(EXIT_FAILURE, log_error,
-				    strerror(errno));
+				fb_err(EXIT_FAILURE, strerror(errno));
 			fprintf(stderr, "Unrecognized option -%c.\n", c);
 			out_help();
-			Log(EXIT_FAILURE, log_error,
-			    "Unrecognized option.\n");
+			fb_err(EXIT_FAILURE, "Unrecognized option.\n");
 			break;
 		}
 	}

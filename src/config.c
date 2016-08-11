@@ -48,7 +48,7 @@ int ConfigInit()
 	if (config_file == NULL) {
 		char s[MAX_BUF];
 		snprintf(s, sizeof(s), "%s : %s", path, strerror(errno));
-		Log(EXIT_FAILURE, log_error, s);
+		fb_err(EXIT_FAILURE, s);
 	}
 	// Now we read the configure file and make a line table.
 	while ((c = next_char(config_file)) != EOF) {
