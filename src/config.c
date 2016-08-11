@@ -86,7 +86,6 @@ int ConfigInit()
 		value[n++] = '\0';
 		if (n > CONFIG_BUFF - 1) 
 			fb_err(EXIT_FAILURE, "the length of configure name is out of limit. Please check your configure file.");
-		AddConfig(name,value);
 
 		/*
 		 * Cause we may define a config before in shell.c
