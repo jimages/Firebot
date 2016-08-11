@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 
 	curl_global_init(CURL_GLOBAL_SSL);
 
-	StartDaemon();
+	daemon_init();
 
 	return 0;
 }
