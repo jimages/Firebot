@@ -30,6 +30,8 @@ bool daemon_init()
 		return 1;
 
 	load_pid();
+	// Before fork we shoud flush everything.
+	fflush(NULL);
 	
 	if (strcasecmp(conf, "START") == 0)
 		start_daemon();
