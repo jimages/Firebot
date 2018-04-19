@@ -25,6 +25,88 @@ static void next_line(FILE * const f)
 		continue;
 } 
 
+/**
+ * Get the map from opt to name of the opt
+ *
+ * @params	
+ * 	char c	the option in command line.
+ * @return	
+ * 	const *char 	the full option.
+ */
+static const char *get_conf(char c) {
+	extern const struct flag_map flags_map[];
+
+	size_t maxind = sizeof(flags_map) / sizeof(flags_map[0]) - 1;
+	for (size_t i = 0 ; i <= maxind ; i++) {
+		if (flags_map[i].flag == c)
+			return flags_map[i].conf;
+	}
+	return NULL;
+}
+
+/**
+ * Load flags and set configure for these.
+ * 	@params
+ * 		int argc	argc from main.
+ * 		char *argv[]	argv from main.
+ * 	@return bool
+ * 		return 0 if success, otherwise
+ * 		return 1;
+ */
+static bool opt_init(int argc, char *argv[])
+{
+	char c;
+	extern const char optstring[];
+	const char *conf;
+
+	if (argc <= 1) {
+			conf = get_conf('h');
+			AddConfig(conf, "");
+
+			conf = get_conf('v');
+			AddConfig(conf, "");
+	}
+
+	while (1) {
+
+		c = getopt(argc, argv, optstring);
+		if (c == (char)-1) break;
+		switch (c) {
+		case 'v':
+		case 'h':
+			conf = get_conf(c);
+			AddConfig(conf, "");
+			break;
+		case 'c':
+		case 'l':
+			conf = get_conf(c);
+			AddConfig(conf, optarg);
+			break;
+		case 'd':
+			conf = get_conf(c);
+			if (optarg == 0)
+				optarg = "start";
+			else if (valid_daemon_command(optarg) != 0)
+				fb_err(EXIT_FAILURE,
+				       "Invalid daemon command.");
+			AddConfig(conf, optarg);
+			break;
+		case ':':
+			fb_warning("Missing option argument.\n");
+			out_help();
+			exit(EXIT_FAILURE);
+			break;
+		default: // for '?'
+			if (errno != 0)
+				fb_err(EXIT_FAILURE, strerror(errno));
+			fprintf(stderr, "Unrecognized option -%c.\n", c);
+			out_help();
+			fb_err(EXIT_FAILURE, "Unrecognized option.\n");
+			break;
+		}
+	}
+	return 0;
+}
 static char next_char(FILE * const f)
 {
 	char c;
@@ -35,8 +117,9 @@ static char next_char(FILE * const f)
 	return c;
 }
 
-int ConfigInit()
+int ConfigInit(int argc, char *argv[])
 {
+	opt_init(argc, argv);
 	FILE *config_file = NULL;
 	char name[CONFIG_BUFF], value[CONFIG_BUFF], c;
 	const char *path;
@@ -170,8 +253,19 @@ int UpdateConfig(const char * const name, const char * value)
 	return 0;
 }
 
+/**************************************
+ * Load the global configure from
+ * master if possible.
+ *
+ * @return int 
+ * 	0 if success, otherwise fail.
+ **************************************
+ */
 int LoadNetworkConfig(void)
 {
+	// Intialize mysql library.
+	mysql_library_init(0, NULL, NULL);
+
 	MYSQL * connector;
 	const char * host, * user, * passwd, *db;
 	unsigned int port;
@@ -219,3 +313,5 @@ int LoadNetworkConfig(void)
 	}
 	return 0;
 }
+
+

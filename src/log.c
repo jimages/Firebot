@@ -14,7 +14,6 @@
 
 enum log_level_t {log_error, log_warning, log_info};
 
-
 static FILE *log_file;
 
 /* return a string which refers timestamp. */
@@ -25,8 +24,8 @@ static char *timestamp() {
 
 	time_string = malloc((size_t)(TIME_STRING_MAX_LENGTH + 1));
 	gmtime_r(& now_time_time_t, & now_time_tm);
-	// At least 21 bytes for the string of date. 
-	strftime(time_string, (size_t)(TIME_STRING_MAX_LENGTH+1), 
+	// At least 21 bytes for the string of date.
+	strftime(time_string, (size_t)(TIME_STRING_MAX_LENGTH+1),
 		"%F %H:%M:%S", &now_time_tm);
 	return time_string;
 }
@@ -60,9 +59,9 @@ int LogInit(void) {
 }
 
 /*
- * Write log message into log file if exists. 
- * exit with status code if LOG_LEVEL if log_error, 
- * otherwise it don`t take effect.  
+ * Write log message into log file if exists.
+ * exit with status code if LOG_LEVEL if log_error,
+ * otherwise it don`t take effect.
  */
 
 // There are three log level: log_error, log_warning and log_info 

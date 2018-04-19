@@ -8,6 +8,7 @@
 #ifndef _FIREBOT_SHELL_H
 #define _FIREBOT_SHELL_H
 
+#include<stdbool.h>
 extern bool shell_init(int argc, char *argv[]);
 
 #endif // _FIREBOT_SHELL_H

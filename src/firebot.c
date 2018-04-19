@@ -8,20 +8,18 @@
 
 int main(int argc, char *argv[])
 {
-	// Intialize mysql library.
-	mysql_library_init(0, NULL, NULL);
 
-	shell_init(argc, argv);
 
 	// Initialize configure module.
-	ConfigInit();
+	ConfigInit(argc, argv);
 
 	// Init log module.
 	LogInit();
 
 	fb_info("firebot started.");
 
-	LoadNetworkConfig();
+	// A one-node crawler first
+	//LoadNetworkConfig();
 
 	curl_global_init(CURL_GLOBAL_SSL);
 

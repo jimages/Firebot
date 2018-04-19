@@ -13,19 +13,29 @@
 #define _FIREBOT_CONFIG_H
 #define CONFIG_FILE_PATH "/etc/firebot.conf"
 
-typedef struct config_pair {
-    char *name;
-    void *value;
-} CONFIG;
+	typedef struct config_pair {
+	    char *name;
+	    void *value;
+	} CONFIG;
 
-typedef struct line_table_item {
-    void *value;
-    struct line_table_item *next;
-} LINE_TABLE_ITEM;
+	typedef struct line_table_item {
+	    void *value;
+	    struct line_table_item *next;
+	} LINE_TABLE_ITEM;
 
-int ConfigInit(void);
+int ConfigInit(int argc, char *argv[]);
 const char *GetConfig(const char *const name);
 int AddConfig(const char *const name, const char *const value);
 int LoadNetworkConfig(void);
+
+const struct flag_map {
+	char flag;
+	const char *conf;
+} flags_map[] = {
+		{'c', "CONFIG_FILE_PATH"},
+		{'l', "LOG_FILE_PATH"},
+		{'d', "DAEMON_MODE"}
+};
+
 
 #endif //_FIREBOT_CONFIG_H

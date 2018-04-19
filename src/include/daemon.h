@@ -8,6 +8,7 @@
 #ifndef _FIREBOT_DAEMON
 #define _FIREBOT_DAEMON
 
+#include<stdbool.h>
 bool daemon_init(void);
 
 #endif //_FIREBOT_DAEMON
